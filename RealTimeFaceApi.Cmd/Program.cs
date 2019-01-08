@@ -72,7 +72,7 @@ namespace RealTimeFaceApi.Cmd
 
         private static CascadeClassifier InitializeFaceClassifier()
         {
-            return new CascadeClassifier("haarcascade_frontalface_alt.xml");
+            return new CascadeClassifier("Data/haarcascade_frontalface_alt.xml");
         }
 
         private static VideoCapture InitializeCapture()
