@@ -1,16 +1,31 @@
-﻿using OpenCvSharp;
+﻿using Microsoft.Azure.CognitiveServices.Vision.Face;
+using OpenCvSharp;
 using RealTimeFaceApi.Core.Data;
 using RealTimeFaceApi.Core.Filters;
 using RealTimeFaceApi.Core.Trackers;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace RealTimeFaceApi.Cmd
 {
-    class Program
+    public static class Program
     {
+        // TODO: Add Face API subscription key.
+        private static string FaceSubscriptionKey = "";
+
+        // TODO: Add face group ID.
+        private static string FaceGroupId = "";
+
+        private static Task _faceRecognitionTask = null;
         private static readonly Scalar _staticColor = new Scalar(0, 0, 255);
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
+        {
+            Run();
+        }
+
+        private static void Run()
         {
             VideoCapture capture = InitializeCapture();
             if (capture == null)
@@ -52,22 +67,50 @@ namespace RealTimeFaceApi.Cmd
                     // Determine change
                     var hasChange = trackingChanges.ShouldUpdateRecognition(state);
 
-                    // Identify faces if changed.
-                    if (hasChange)
+                    // Identify faces if changed and previous identification finished.
+                    if (hasChange && _faceRecognitionTask == null)
                     {
-                        Console.WriteLine(DateTime.Now.Ticks + ": Changed, getting new identity!");
-
-                        // TODO: Call Microsoft Cognitive Services.
+                        _faceRecognitionTask = StartRecognizing(image);
                     }
 
                     using (var renderedFaces = RenderFaces(state, image, _staticColor))
                     {
+                        // Update popup window.
                         window.ShowImage(renderedFaces);
                     }
 
                     Cv2.WaitKey(timePerFrame);
                 }
             }
+        }
+
+        private static async Task StartRecognizing(Mat image)
+        {
+            try
+            {
+                Console.WriteLine(DateTime.Now + ": Attempting to recognize faces...");
+
+                var client = new FaceClient(new ApiKeyServiceClientCredentials(FaceSubscriptionKey))
+                {
+                    Endpoint = "https://westus.api.cognitive.microsoft.com"
+                };
+
+                var stream = image.ToMemoryStream();
+                var detectedFaces = await client.Face.DetectWithStreamAsync(stream, true, true);
+                var faceIds = detectedFaces.Where(f => f.FaceId.HasValue).Select(f => f.FaceId.Value).ToList();
+                var potentialUsers = await client.Face.IdentifyAsync(faceIds, FaceGroupId);
+
+                foreach (var candidate in potentialUsers.Select(u => u.Candidates.FirstOrDefault()))
+                {
+                    Console.WriteLine(DateTime.Now + ": Identified user ID: " + candidate.PersonId);
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Getting identity failed.");
+            }
+
+            _faceRecognitionTask = null;
         }
 
         private static CascadeClassifier InitializeFaceClassifier()
