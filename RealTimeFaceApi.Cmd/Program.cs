@@ -4,6 +4,7 @@ using RealTimeFaceApi.Core.Data;
 using RealTimeFaceApi.Core.Filters;
 using RealTimeFaceApi.Core.Trackers;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,26 +23,41 @@ namespace RealTimeFaceApi.Cmd
 
         public static void Main(string[] args)
         {
-            Run();
+            string filename = args.FirstOrDefault();
+            Run(filename);
         }
 
-        private static void Run()
+        private static void Run(string filename)
         {
-            VideoCapture capture = InitializeCapture();
+            VideoCapture capture;
+            if (!string.IsNullOrWhiteSpace(filename) && File.Exists(filename))
+            {
+                // If filename exists, use that as a source of video.
+                capture = InitializeVideoCapture(filename);
+            }
+            else
+            {
+                // Otherwise use the webcam.
+                capture = InitializeCapture();
+            }
+
             if (capture == null)
             {
                 Console.ReadKey();
                 return;
             }
 
+            // Initialize face detection algorithm.
             CascadeClassifier haarCascade = InitializeFaceClassifier();
             int timePerFrame = (int)Math.Round(1000 / capture.Fps);
 
+            // List of simple face filtering algorithms.
             var filtering = new SimpleFaceFiltering(new IFaceFilter[]
             {
                 new TooSmallFacesFilter(20, 20)
             });
 
+            // List of simple face tracking algorithms.
             var trackingChanges = new SimpleFaceTracking(new IFaceTrackingChanged[]
             {
                 new TrackNumberOfFaces(),
@@ -68,7 +84,7 @@ namespace RealTimeFaceApi.Cmd
                     var hasChange = trackingChanges.ShouldUpdateRecognition(state);
 
                     // Identify faces if changed and previous identification finished.
-                    if (hasChange && _faceRecognitionTask == null)
+                    if (hasChange && _faceRecognitionTask == null && !string.IsNullOrWhiteSpace(FaceSubscriptionKey))
                     {
                         _faceRecognitionTask = StartRecognizing(image);
                     }
@@ -126,6 +142,18 @@ namespace RealTimeFaceApi.Cmd
             if (!capture.IsOpened())
             {
                 Console.WriteLine("Unable to open capture.");
+                return null;
+            }
+
+            return capture;
+        }
+
+        private static VideoCapture InitializeVideoCapture(string file)
+        {
+            var capture = new VideoCapture(file);
+            if (!capture.IsOpened())
+            {
+                Console.WriteLine("Unable to open video file {0}.", file);
                 return null;
             }
 
