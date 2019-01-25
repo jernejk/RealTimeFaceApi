@@ -18,29 +18,43 @@ namespace RealTimeFaceApi.Cmd
         // TODO: Add face group ID.
         private static string FaceGroupId = "";
 
+        private static readonly Scalar _faceColorBrush = new Scalar(0, 0, 255);
+        private static FaceClient _faceClient;
         private static Task _faceRecognitionTask = null;
-        private static readonly Scalar _staticColor = new Scalar(0, 0, 255);
 
         public static void Main(string[] args)
         {
+            _faceClient = new FaceClient(new ApiKeyServiceClientCredentials(FaceSubscriptionKey))
+            {
+                Endpoint = "https://westus.api.cognitive.microsoft.com"
+            };
+
             string filename = args.FirstOrDefault();
             Run(filename);
         }
 
         private static void Run(string filename)
         {
+            int timePerFrame;
             VideoCapture capture;
             if (!string.IsNullOrWhiteSpace(filename) && File.Exists(filename))
             {
                 // If filename exists, use that as a source of video.
                 capture = InitializeVideoCapture(filename);
+
+                // Allow just enough time to paint the frame on the window.
+                timePerFrame = 1;
             }
             else
             {
                 // Otherwise use the webcam.
                 capture = InitializeCapture();
+                
+                // Time required to wait until next frame.
+                timePerFrame = (int)Math.Round(1000 / capture.Fps);
             }
 
+            // Input was not initialized.
             if (capture == null)
             {
                 Console.ReadKey();
@@ -49,8 +63,7 @@ namespace RealTimeFaceApi.Cmd
 
             // Initialize face detection algorithm.
             CascadeClassifier haarCascade = InitializeFaceClassifier();
-            int timePerFrame = (int)Math.Round(1000 / capture.Fps);
-
+            
             // List of simple face filtering algorithms.
             var filtering = new SimpleFaceFiltering(new IFaceFilter[]
             {
@@ -64,57 +77,61 @@ namespace RealTimeFaceApi.Cmd
                 new TrackDistanceOfFaces { Threshold = 2000 }
             });
 
+            // Open a new window via OpenCV.
             using (Window window = new Window("capture"))
-            using (Mat image = new Mat())
             {
-                while (true)
+                using (Mat image = new Mat())
                 {
-                    capture.Read(image);
-                    if (image.Empty())
-                        continue;
-
-                    // Detect faces
-                    var faces = DetectFaces(haarCascade, image);
-
-                    // Filter faces
-                    var state = faces.ToImageState();
-                    state = filtering.FilterFaces(state);
-
-                    // Determine change
-                    var hasChange = trackingChanges.ShouldUpdateRecognition(state);
-
-                    // Identify faces if changed and previous identification finished.
-                    if (hasChange && _faceRecognitionTask == null && !string.IsNullOrWhiteSpace(FaceSubscriptionKey))
+                    while (true)
                     {
-                        _faceRecognitionTask = StartRecognizing(image);
-                    }
+                        // Get current frame.
+                        capture.Read(image);
+                        if (image.Empty())
+                            continue;
 
-                    using (var renderedFaces = RenderFaces(state, image, _staticColor))
-                    {
-                        // Update popup window.
-                        window.ShowImage(renderedFaces);
-                    }
+                        // Detect faces
+                        var faces = DetectFaces(haarCascade, image);
 
-                    Cv2.WaitKey(timePerFrame);
+                        // Filter faces
+                        var state = faces.ToImageState();
+                        state = filtering.FilterFaces(state);
+
+                        // Determine change
+                        var hasChange = trackingChanges.ShouldUpdateRecognition(state);
+
+                        // Identify faces if changed and previous identification finished.
+                        if (hasChange && _faceRecognitionTask == null && !string.IsNullOrWhiteSpace(FaceSubscriptionKey))
+                        {
+                            _faceRecognitionTask = StartRecognizing(image);
+                        }
+
+                        using (var renderedFaces = RenderFaces(state, image))
+                        {
+                            // Update popup window.
+                            window.ShowImage(renderedFaces);
+                        }
+
+                        // Wait for next frame and allow Window to be repainted.
+                        Cv2.WaitKey(timePerFrame);
+                    }
                 }
             }
         }
 
+        /// <summary>
+        /// Use Microsoft Cognitive Services to recognize their faces.
+        /// </summary>
+        /// <param name="image">Video or web cam frame.</param>
         private static async Task StartRecognizing(Mat image)
         {
             try
             {
                 Console.WriteLine(DateTime.Now + ": Attempting to recognize faces...");
-
-                var client = new FaceClient(new ApiKeyServiceClientCredentials(FaceSubscriptionKey))
-                {
-                    Endpoint = "https://westus.api.cognitive.microsoft.com"
-                };
-
+                
                 var stream = image.ToMemoryStream();
-                var detectedFaces = await client.Face.DetectWithStreamAsync(stream, true, true);
+                var detectedFaces = await _faceClient.Face.DetectWithStreamAsync(stream, true, true);
                 var faceIds = detectedFaces.Where(f => f.FaceId.HasValue).Select(f => f.FaceId.Value).ToList();
-                var potentialUsers = await client.Face.IdentifyAsync(faceIds, FaceGroupId);
+                var potentialUsers = await _faceClient.Face.IdentifyAsync(faceIds, FaceGroupId);
 
                 foreach (var candidate in potentialUsers.Select(u => u.Candidates.FirstOrDefault()))
                 {
@@ -129,11 +146,18 @@ namespace RealTimeFaceApi.Cmd
             _faceRecognitionTask = null;
         }
 
+        /// <summary>
+        /// Initialize classifier used for offline face detection.
+        /// </summary>
         private static CascadeClassifier InitializeFaceClassifier()
         {
             return new CascadeClassifier("Data/haarcascade_frontalface_alt.xml");
         }
 
+        /// <summary>
+        /// Initialize web cam capture.
+        /// </summary>
+        /// <returns>Returns web cam capture.</returns>
         private static VideoCapture InitializeCapture()
         {
             VideoCapture capture = new VideoCapture();
@@ -148,6 +172,11 @@ namespace RealTimeFaceApi.Cmd
             return capture;
         }
 
+        /// <summary>
+        /// Initializes video capture for video files.
+        /// </summary>
+        /// <param name="file">Path to a video.</param>
+        /// <returns>Return video file capture.</returns>
         private static VideoCapture InitializeVideoCapture(string file)
         {
             var capture = new VideoCapture(file);
@@ -160,6 +189,12 @@ namespace RealTimeFaceApi.Cmd
             return capture;
         }
 
+        /// <summary>
+        /// Use OpenCV Cascade classifier to do offline face detection.
+        /// </summary>
+        /// <param name="cascadeClassifier">OpenCV cascade classifier.</param>
+        /// <param name="image">Web cam or video frame.</param>
+        /// <returns>Return list of faces as rectangles.</returns>
         private static Rect[] DetectFaces(CascadeClassifier cascadeClassifier, Mat image)
         {
             return cascadeClassifier
@@ -171,10 +206,16 @@ namespace RealTimeFaceApi.Cmd
                     new Size(60, 60));
         }
 
-        private static Mat RenderFaces(FrameState state, Mat original, Scalar color)
+        /// <summary>
+        /// Render detected faces via OpenCV.
+        /// </summary>
+        /// <param name="state">Current frame state.</param>
+        /// <param name="image">Web cam or video frame.</param>
+        /// <returns>Returns new image frame.</returns>
+        private static Mat RenderFaces(FrameState state, Mat image)
         {
-            Mat result = original.Clone();
-            Cv2.CvtColor(original, original, ColorConversionCodes.BGR2GRAY);
+            Mat result = image.Clone();
+            Cv2.CvtColor(image, image, ColorConversionCodes.BGR2GRAY);
 
             // Render all detected faces
             foreach (var face in state.Faces)
@@ -190,7 +231,7 @@ namespace RealTimeFaceApi.Cmd
                     Height = (int)(face.Size.Height * 0.5) + 10
                 };
 
-                Cv2.Ellipse(result, center, axes, 0, 0, 360, new Scalar(0, 0, 255), 4);
+                Cv2.Ellipse(result, center, axes, 0, 0, 360, _faceColorBrush, 4);
             }
 
             return result;
