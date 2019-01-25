@@ -20,9 +20,13 @@ namespace RealTimeFaceApi.Cmd
 
         private static Task _faceRecognitionTask = null;
         private static readonly Scalar _staticColor = new Scalar(0, 0, 255);
+        private static readonly ReadImageExample _poseNet = new ReadImageExample();
+        private static PoseNet.Pose[] _lastPoses = null;
 
         public static void Main(string[] args)
         {
+            _poseNet.Start();
+
             string filename = args.FirstOrDefault();
             Run(filename);
         }
@@ -88,9 +92,42 @@ namespace RealTimeFaceApi.Cmd
                     {
                         _faceRecognitionTask = StartRecognizing(image);
                     }
-
+                    
                     using (var renderedFaces = RenderFaces(state, image, _staticColor))
                     {
+                        if (state.Faces.Any())
+                        {
+                            PoseNet.Pose[] poses = _poseNet.FindPose(image.ToBytes());
+                            if (poses.Any())
+                            {
+                                _lastPoses = poses;
+                            }
+                        }
+
+                        if (_lastPoses != null)
+                        {
+                            foreach (var pose in _lastPoses)
+                            {
+                                //Cv2.Line
+                                foreach (var point in pose.keypoints.Where(p => p.score > 0.1))
+                                {
+                                    var center = new Point
+                                    {
+                                        X = (int)point.position.x,
+                                        Y = (int)point.position.y
+                                    };
+                                    var axes = new Size
+                                    {
+                                        Width = 2,
+                                        Height = 2
+                                    };
+
+                                    Cv2.Ellipse(renderedFaces, center, axes, 0, 0, 360, new Scalar(0, 255, 0), 2);
+                                    Cv2.PutText(renderedFaces, point.part + " (" + point.score + ")", center, HersheyFonts.HersheyPlain, 1, new Scalar(255, 0, 0), 2);
+                                }
+                            }
+                        }
+
                         // Update popup window.
                         window.ShowImage(renderedFaces);
                     }
