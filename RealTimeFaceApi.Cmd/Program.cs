@@ -158,10 +158,10 @@ namespace RealTimeFaceApi.Cmd
         /// Initialize web cam capture.
         /// </summary>
         /// <returns>Returns web cam capture.</returns>
-        private static VideoCapture InitializeCapture()
+        private static VideoCapture InitializeCapture(int cameraIndex = 0)
         {
             VideoCapture capture = new VideoCapture();
-            capture.Open(CaptureDevice.MSMF, 1);
+            capture.Open(CaptureDevice.MSMF, cameraIndex);
 
             if (!capture.IsOpened())
             {
