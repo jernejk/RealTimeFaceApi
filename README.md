@@ -1,5 +1,9 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/s8o64bsqd4agvocm/branch/master?svg=true)](https://ci.appveyor.com/project/jernejk/realtimefaceapi/branch/master)
 
+Blog post: [Real-time face recognition with Microsoft Cognitive Services](https://jkdev.me/real-time-face-recognition/)
+
+YouTube video: [.NET User Group: Real-time Face Recognition With Microsoft Cognitive Services](https://www.youtube.com/watch?v=KCSyRO0KotA)
+
 # RealTimeFaceApi
 This is a demo project showing how to use Face API in Cognitive Services with OpenCV.
 
