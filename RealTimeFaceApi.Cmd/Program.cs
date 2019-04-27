@@ -99,10 +99,15 @@ namespace RealTimeFaceApi.Cmd
                         // Determine change
                         var hasChange = trackingChanges.ShouldUpdateRecognition(state);
 
-                        // Identify faces if changed and previous identification finished.
-                        if (hasChange && _faceRecognitionTask == null && !string.IsNullOrWhiteSpace(FaceSubscriptionKey))
+                        if (hasChange)
                         {
-                            _faceRecognitionTask = StartRecognizing(image);
+                            Console.WriteLine("Changes detected...");
+
+                            // Identify faces if changed and previous identification finished.
+                            if (_faceRecognitionTask == null && !string.IsNullOrWhiteSpace(FaceSubscriptionKey))
+                            {
+                                _faceRecognitionTask = StartRecognizing(image);
+                            }
                         }
 
                         using (var renderedFaces = RenderFaces(state, image))
@@ -131,11 +136,14 @@ namespace RealTimeFaceApi.Cmd
                 var stream = image.ToMemoryStream();
                 var detectedFaces = await _faceClient.Face.DetectWithStreamAsync(stream, true, true);
                 var faceIds = detectedFaces.Where(f => f.FaceId.HasValue).Select(f => f.FaceId.Value).ToList();
-                var potentialUsers = await _faceClient.Face.IdentifyAsync(faceIds, FaceGroupId);
 
-                foreach (var candidate in potentialUsers.Select(u => u.Candidates.FirstOrDefault()))
+                if (faceIds.Any())
                 {
-                    Console.WriteLine(DateTime.Now + ": Identified user ID: " + candidate.PersonId);
+                    var potentialUsers = await _faceClient.Face.IdentifyAsync(faceIds, FaceGroupId);
+                    foreach (var candidate in potentialUsers.Select(u => u.Candidates.FirstOrDefault()))
+                    {
+                        Console.WriteLine(DateTime.Now + ": Identified user ID: " + candidate?.PersonId);
+                    }
                 }
             }
             catch
