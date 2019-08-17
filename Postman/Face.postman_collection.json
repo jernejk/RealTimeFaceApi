@@ -1,0 +1,248 @@
+{
+	"info": {
+		"_postman_id": "d7fdd958-6e55-43e9-b422-6d226709f351",
+		"name": "Face",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Detect faces with URL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "59a6ac55-bb92-444d-a039-5a5c795ec2ff",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"type": "text",
+						"value": "{{FaceSubscriptionKey}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"url\": \"https://jkdev.me/content/images/2018/04/JK-Profile-004-thumb.jpg?b\",\r\n    \"recognitionModel\": \"{{RecognitionModel}}\",\r\n    \"detectionModel\": \"{{DetectionModel}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/detect",
+					"protocol": "https",
+					"host": [
+						"{{RegionBaseUrl}}",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"detect"
+					]
+				},
+				"description": "To improve recognition accuracy use:\n\n``` js\n{\n    \"name\": \"Person of interest\",\n    \"recognitionModel\": \"recognition_02\"\n}\n```"
+			},
+			"response": [
+				{
+					"name": "Detected one face (no extra features)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"type": "text",
+								"value": "{{FaceSubscriptionKey}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"url\": \"https://jkdev.me/content/images/2018/04/JK-Profile-004-thumb.jpg?b\",\r\n    \"recognitionModel\": \"{{RecognitionModel}}\",\r\n    \"detectionModel\": \"{{DetectionModel}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/detect",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"detect"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "111"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "1a8f23e0-4076-4f84-bcd3-63632b154039"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 11:03:17 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"faceId\": \"c7147cb8-b978-4887-bdba-066149d81624\",\n        \"faceRectangle\": {\n            \"top\": 49,\n            \"left\": 61,\n            \"width\": 66,\n            \"height\": 66\n        }\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Detect faces with binary images",
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"type": "text",
+						"value": "{{FaceSubscriptionKey}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/octet-stream"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/C:/Users/JK/OneDrive/Slike/me.jpg"
+					}
+				},
+				"url": {
+					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/detect",
+					"protocol": "https",
+					"host": [
+						"{{RegionBaseUrl}}",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"detect"
+					]
+				},
+				"description": "To improve recognition accuracy use:\n\n``` js\n{\n    \"name\": \"Person of interest\",\n    \"recognitionModel\": \"recognition_02\"\n}\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Identify",
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"type": "text",
+						"value": "{{FaceSubscriptionKey}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"personGroupId\": \"{{DefaultGroupId}}\",\r\n    \"faceIds\": [\r\n        \"f1106db9-f09b-497d-b99d-29764ab9dbd0\"\r\n    ],\r\n    \"maxNumOfCandidatesReturned\": 1,\r\n    \"confidenceThreshold\": 0.5\r\n}"
+				},
+				"url": {
+					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/identify",
+					"protocol": "https",
+					"host": [
+						"{{RegionBaseUrl}}",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"identify"
+					]
+				},
+				"description": "To improve recognition accuracy use:\n\n``` js\n{\n    \"name\": \"Person of interest\",\n    \"recognitionModel\": \"recognition_02\"\n}\n```"
+			},
+			"response": []
+		}
+	]
+}
