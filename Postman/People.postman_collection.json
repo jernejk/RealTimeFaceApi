@@ -42,17 +42,12 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"JK\",\r\n    \"userData\": null\r\n}"
+					"raw": "{\r\n    \"name\": \"JK\",\r\n    \"userData\": \"kjdgjsdlkhflksdjfaldsk\"\r\n}"
 				},
 				"url": {
-					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/persons",
-					"protocol": "https",
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/persons",
 					"host": [
-						"{{RegionBaseUrl}}",
-						"api",
-						"cognitive",
-						"microsoft",
-						"com"
+						"{{FaceApiUrl}}"
 					],
 					"path": [
 						"face",
@@ -195,14 +190,9 @@
 					"raw": "{\r\n    \"userData\": \"https://jkdev.me/content/images/2018/04/JK-Profile-004-thumb.jpg\"\r\n}"
 				},
 				"url": {
-					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/persons/{{LastUsedPersonId}}",
-					"protocol": "https",
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/persons/{{LastUsedPersonId}}",
 					"host": [
-						"{{RegionBaseUrl}}",
-						"api",
-						"cognitive",
-						"microsoft",
-						"com"
+						"{{FaceApiUrl}}"
 					],
 					"path": [
 						"face",
@@ -246,14 +236,9 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/persons",
-					"protocol": "https",
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/persons",
 					"host": [
-						"{{RegionBaseUrl}}",
-						"api",
-						"cognitive",
-						"microsoft",
-						"com"
+						"{{FaceApiUrl}}"
 					],
 					"path": [
 						"face",
@@ -306,14 +291,9 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/persons/{{LastUsedPersonId}}",
-					"protocol": "https",
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/persons/{{LastUsedPersonId}}",
 					"host": [
-						"{{RegionBaseUrl}}",
-						"api",
-						"cognitive",
-						"microsoft",
-						"com"
+						"{{FaceApiUrl}}"
 					],
 					"path": [
 						"face",
@@ -457,14 +437,9 @@
 					"raw": "{\r\n    \"url\": \"https://jkdev.me/content/images/2018/04/JK-Profile-004-thumb.jpg\",\r\n    \"detectionModel\": \"{{RecognitionModel}}\",\r\n    \"userData\": null\r\n}"
 				},
 				"url": {
-					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/persons/{{LastUsedPersonId}}/persistedFaces",
-					"protocol": "https",
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/persons/{{LastUsedPersonId}}/persistedFaces",
 					"host": [
-						"{{RegionBaseUrl}}",
-						"api",
-						"cognitive",
-						"microsoft",
-						"com"
+						"{{FaceApiUrl}}"
 					],
 					"path": [
 						"face",
@@ -596,14 +571,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/default/persons/{{LastUsedPersonId}}/persistedFaces/{{LastUsedPersonFaceId}}",
-					"protocol": "https",
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/default/persons/{{LastUsedPersonId}}/persistedFaces/{{LastUsedPersonFaceId}}",
 					"host": [
-						"{{RegionBaseUrl}}",
-						"api",
-						"cognitive",
-						"microsoft",
-						"com"
+						"{{FaceApiUrl}}"
 					],
 					"path": [
 						"face",
@@ -644,14 +614,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/default/persons/{{LastUsedPersonId}}/persistedFaces/{{LastUsedPersonFaceId}}",
-					"protocol": "https",
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/default/persons/{{LastUsedPersonId}}/persistedFaces/{{LastUsedPersonFaceId}}",
 					"host": [
-						"{{RegionBaseUrl}}",
-						"api",
-						"cognitive",
-						"microsoft",
-						"com"
+						"{{FaceApiUrl}}"
 					],
 					"path": [
 						"face",

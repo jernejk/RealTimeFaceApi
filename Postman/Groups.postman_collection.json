@@ -23,7 +23,7 @@
 			],
 			"request": {
 				"auth": {
-					"type": "bearer"
+					"type": "noauth"
 				},
 				"method": "PUT",
 				"header": [
@@ -44,14 +44,9 @@
 					"raw": "{\r\n    \"name\": \"People of interest\",\r\n    \"recognitionModel\": \"{{RecognitionModel}}\",\r\n    \"userData\": null\r\n}"
 				},
 				"url": {
-					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}",
-					"protocol": "https",
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}",
 					"host": [
-						"{{RegionBaseUrl}}",
-						"api",
-						"cognitive",
-						"microsoft",
-						"com"
+						"{{FaceApiUrl}}"
 					],
 					"path": [
 						"face",
@@ -245,9 +240,23 @@
 		},
 		{
 			"name": "List groups",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2f908489-0550-4aaa-993c-47f027e7c3dc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
-					"type": "bearer"
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [
@@ -258,14 +267,9 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups?returnRecognitionModel=true",
-					"protocol": "https",
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups?returnRecognitionModel=true",
 					"host": [
-						"{{RegionBaseUrl}}",
-						"api",
-						"cognitive",
-						"microsoft",
-						"com"
+						"{{FaceApiUrl}}"
 					],
 					"path": [
 						"face",
@@ -287,8 +291,7 @@
 						},
 						{
 							"key": "returnRecognitionModel",
-							"value": "true",
-							"description": "Return 'recognitionModel' or not. The default value is false."
+							"value": "true"
 						}
 					]
 				}
@@ -413,7 +416,7 @@
 			],
 			"request": {
 				"auth": {
-					"type": "bearer"
+					"type": "noauth"
 				},
 				"method": "DELETE",
 				"header": [
@@ -424,14 +427,9 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}",
-					"protocol": "https",
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}",
 					"host": [
-						"{{RegionBaseUrl}}",
-						"api",
-						"cognitive",
-						"microsoft",
-						"com"
+						"{{FaceApiUrl}}"
 					],
 					"path": [
 						"face",
@@ -620,7 +618,7 @@
 			],
 			"request": {
 				"auth": {
-					"type": "bearer"
+					"type": "noauth"
 				},
 				"method": "POST",
 				"header": [
@@ -631,14 +629,9 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/train",
-					"protocol": "https",
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/train",
 					"host": [
-						"{{RegionBaseUrl}}",
-						"api",
-						"cognitive",
-						"microsoft",
-						"com"
+						"{{FaceApiUrl}}"
 					],
 					"path": [
 						"face",
@@ -846,7 +839,7 @@
 			],
 			"request": {
 				"auth": {
-					"type": "bearer"
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [
@@ -857,14 +850,9 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/training",
-					"protocol": "https",
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/training",
 					"host": [
-						"{{RegionBaseUrl}}",
-						"api",
-						"cognitive",
-						"microsoft",
-						"com"
+						"{{FaceApiUrl}}"
 					],
 					"path": [
 						"face",
