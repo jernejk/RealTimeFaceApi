@@ -1,0 +1,1034 @@
+{
+	"info": {
+		"_postman_id": "661dd20b-b211-4d60-8bee-91dde8ff290f",
+		"name": "Groups",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ba7e047a-4afc-4e56-950d-848df9cc75fe",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{FaceSubscriptionKey}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"People of interest\",\r\n    \"recognitionModel\": \"{{RecognitionModel}}\",\r\n    \"userData\": null\r\n}"
+				},
+				"url": {
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}",
+					"host": [
+						"{{FaceApiUrl}}"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"persongroups",
+						"{{DefaultGroupId}}"
+					]
+				},
+				"description": "To improve recognition accuracy use:\n\n``` js\n{\n    \"name\": \"Person of interest\",\n    \"recognitionModel\": \"recognition_02\"\n}\n```"
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{FaceSubscriptionKey}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"People of interest\",\r\n    \"recognitionModel\": \"{{RecognitionModel}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"persongroups",
+								"{{DefaultGroupId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "0d087d99-ee51-4bb5-a8a8-8dc4e0ccf44e"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 10:50:48 GMT"
+						}
+					],
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "Conflict",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{FaceSubscriptionKey}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"People of interest\",\r\n    \"recognitionModel\": \"{{RecognitionModel}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"persongroups",
+								"{{DefaultGroupId}}"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "89"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "9a72321b-e300-4987-8645-678940448d89"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 10:51:57 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": {\n        \"code\": \"PersonGroupExists\",\n        \"message\": \"Person group 'default' already exists.\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "List groups",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2f908489-0550-4aaa-993c-47f027e7c3dc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"type": "text",
+						"value": "{{FaceSubscriptionKey}}"
+					}
+				],
+				"url": {
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups?returnRecognitionModel=true",
+					"host": [
+						"{{FaceApiUrl}}"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"persongroups"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "default",
+							"description": "List person groups from the least personGroupId greater than the \"start\". It contains no more than 64 characters. Default is empty.",
+							"disabled": true
+						},
+						{
+							"key": "end",
+							"value": "default",
+							"description": "The number of person groups to list, ranging in [1, 1000]. Default is 1000.",
+							"disabled": true
+						},
+						{
+							"key": "returnRecognitionModel",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "List groups",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"type": "text",
+								"value": "{{FaceSubscriptionKey}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups?returnRecognitionModel=true",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"persongroups"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "default",
+									"description": "List person groups from the least personGroupId greater than the \"start\". It contains no more than 64 characters. Default is empty.",
+									"disabled": true
+								},
+								{
+									"key": "end",
+									"value": "default",
+									"description": "The number of person groups to list, ranging in [1, 1000]. Default is 1000.",
+									"disabled": true
+								},
+								{
+									"key": "returnRecognitionModel",
+									"value": "true",
+									"description": "Return 'recognitionModel' or not. The default value is false."
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "109"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "ed90a7b3-2e97-4242-9022-9ab57ba50de0"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 10:52:33 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"recognitionModel\": \"recognition_01\",\n        \"personGroupId\": \"default\",\n        \"name\": \"People of interest\",\n        \"userData\": null\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Delete group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d3862f50-384c-4958-9aeb-59977e6c97d6",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{FaceSubscriptionKey}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}",
+					"host": [
+						"{{FaceApiUrl}}"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"persongroups",
+						"{{DefaultGroupId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{FaceSubscriptionKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"persongroups",
+								"{{DefaultGroupId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "a4a9f4a8-5ac3-42e9-a7cc-a11f125de536"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 10:54:07 GMT"
+						}
+					],
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "Not found",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{FaceSubscriptionKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"persongroups",
+								"{{DefaultGroupId}}"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "112"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "02acabbc-31c5-4375-a703-f3534c8801af"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 10:54:32 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": {\n        \"code\": \"PersonGroupNotFound\",\n        \"message\": \"Person group is not found.\\r\\nParameter name: personGroupId\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Train group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "79ec1582-881d-4b1e-9a9b-2eed57fcf81f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(202);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{FaceSubscriptionKey}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/train",
+					"host": [
+						"{{FaceApiUrl}}"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"persongroups",
+						"{{DefaultGroupId}}",
+						"train"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Person group not found",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{FaceSubscriptionKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/train",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"persongroups",
+								"{{DefaultGroupId}}",
+								"train"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "112"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "3cacda58-a0cd-485a-891f-339957012393"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Access-Control-Expose-Headers",
+							"value": "Operation-Location"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 10:55:21 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": {\n        \"code\": \"PersonGroupNotFound\",\n        \"message\": \"Person group is not found.\\r\\nParameter name: personGroupId\"\n    }\n}"
+				},
+				{
+					"name": "Start training",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{FaceSubscriptionKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/train",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"persongroups",
+								"{{DefaultGroupId}}",
+								"train"
+							]
+						}
+					},
+					"status": "Accepted",
+					"code": 202,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Operation-Location",
+							"value": "http://southeastasia.prod.facev1.api.cognitive.trafficmanager.net:8080/persongroups/default/training"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "944e2457-1253-4656-a807-face02d9f02a"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Access-Control-Expose-Headers",
+							"value": "Operation-Location"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 10:55:54 GMT"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Check group training status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "96eefa46-d82b-43b8-a004-7deebc375f42",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(\"succeeded\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{FaceSubscriptionKey}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/training",
+					"host": [
+						"{{FaceApiUrl}}"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"persongroups",
+						"{{DefaultGroupId}}",
+						"training"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Successed",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{FaceSubscriptionKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/training",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"persongroups",
+								"{{DefaultGroupId}}",
+								"training"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "138"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "ea150b0a-43b5-436f-a2c8-06dd5638388c"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 11:02:57 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"succeeded\",\n    \"createdDateTime\": \"2019-08-17T11:02:56.6623752Z\",\n    \"lastActionDateTime\": \"2019-08-17T11:02:56.8495867Z\",\n    \"message\": null\n}"
+				},
+				{
+					"name": "No persons",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{FaceSubscriptionKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/training",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"persongroups",
+								"{{DefaultGroupId}}",
+								"training"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "168"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "ea41a383-f6a5-4e77-b35d-6563dbc29616"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 10:55:57 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"failed\",\n    \"createdDateTime\": \"2019-08-17T10:55:54.8815102Z\",\n    \"lastActionDateTime\": \"2019-08-17T10:55:55.0232241Z\",\n    \"message\": \"There is no person in group default\"\n}"
+				}
+			]
+		}
+	]
+}

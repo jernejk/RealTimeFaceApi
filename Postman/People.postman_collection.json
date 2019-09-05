@@ -1,0 +1,732 @@
+{
+	"info": {
+		"_postman_id": "5778a580-7f9b-4d7e-8375-f738b62554ad",
+		"name": "People",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Person",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ba4d739c-cbe4-4b4d-9c50-b1ebebad8c5e",
+						"exec": [
+							"pm.test(\"Get last person ID\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    ",
+							"    pm.response.to.have.status(200);",
+							"    pm.environment.set(\"LastUsedPersonId\", jsonData.personId);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{FaceSubscriptionKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"JK\",\r\n    \"userData\": \"kjdgjsdlkhflksdjfaldsk\"\r\n}"
+				},
+				"url": {
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/persons",
+					"host": [
+						"{{FaceApiUrl}}"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"persongroups",
+						"{{DefaultGroupId}}",
+						"persons"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Person added",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{FaceSubscriptionKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"JK\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/persons",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"persongroups",
+								"{{DefaultGroupId}}",
+								"persons"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "51"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "403c7b21-4dee-442b-bc1d-5ad04f44f831"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 10:58:49 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"personId\": \"18575ffb-76f9-448f-b70b-30a5c6a7f2b9\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Person",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ba4d739c-cbe4-4b4d-9c50-b1ebebad8c5e",
+						"exec": [
+							"pm.test(\"Get last person ID\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"type": "text",
+						"value": "{{FaceSubscriptionKey}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userData\": \"https://jkdev.me/content/images/2018/04/JK-Profile-004-thumb.jpg\"\r\n}"
+				},
+				"url": {
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/persons/{{LastUsedPersonId}}",
+					"host": [
+						"{{FaceApiUrl}}"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"persongroups",
+						"{{DefaultGroupId}}",
+						"persons",
+						"{{LastUsedPersonId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List People",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ba4d739c-cbe4-4b4d-9c50-b1ebebad8c5e",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"type": "text",
+						"value": "{{FaceSubscriptionKey}}"
+					}
+				],
+				"url": {
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/persons",
+					"host": [
+						"{{FaceApiUrl}}"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"persongroups",
+						"{{DefaultGroupId}}",
+						"persons"
+					],
+					"query": [
+						{
+							"key": "top",
+							"value": "",
+							"description": "Between 1 and 1000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Person",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e05302b5-d1f5-4a25-a1a0-b006b629e590",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/javascript",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{FaceSubscriptionKey}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/persons/{{LastUsedPersonId}}",
+					"host": [
+						"{{FaceApiUrl}}"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"persongroups",
+						"{{DefaultGroupId}}",
+						"persons",
+						"{{LastUsedPersonId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/javascript",
+								"type": "text"
+							},
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{FaceSubscriptionKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Person1\",\r\n    \"userData\": \"User-provided data attached to the person.\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/persons/{{LastUsedPersonId}}",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"persongroups",
+								"{{DefaultGroupId}}",
+								"persons",
+								"{{LastUsedPersonId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "922f20f5-a688-442f-9ac1-106669e87cf4"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 11:00:28 GMT"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Add Person Face",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1c6c06cc-84c8-4213-b247-87c3f6a734da",
+						"exec": [
+							"pm.test(\"Get last person ID\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    ",
+							"    pm.response.to.have.status(200);",
+							"    pm.environment.set(\"LastUsedPersonFaceId\", jsonData.persistedFaceId);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{FaceSubscriptionKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"url\": \"https://jkdev.me/content/images/2018/04/JK-Profile-004-thumb.jpg\",\r\n    \"detectionModel\": \"{{RecognitionModel}}\",\r\n    \"userData\": null\r\n}"
+				},
+				"url": {
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/{{DefaultGroupId}}/persons/{{LastUsedPersonId}}/persistedFaces",
+					"host": [
+						"{{FaceApiUrl}}"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"persongroups",
+						"{{DefaultGroupId}}",
+						"persons",
+						"{{LastUsedPersonId}}",
+						"persistedFaces"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{FaceSubscriptionKey}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"url\": \"https://jkdev.me/content/images/2018/04/JK-Profile-004-thumb.jpg\",\r\n    \"detectionModel\": \"{{RecognitionModel}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/{{DefaultGroupId}}/persons/{{LastUsedPersonId}}/persistedFaces",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"persongroups",
+								"{{DefaultGroupId}}",
+								"persons",
+								"{{LastUsedPersonId}}",
+								"persistedFaces"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "58"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "99cc3f5b-eb8e-4e2a-8656-cebb8f15186d"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 11:01:59 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"persistedFaceId\": \"4b3665ce-f57d-4291-a831-f300366c6e21\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete Person Face",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"type": "text",
+						"value": "{{FaceSubscriptionKey}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/default/persons/{{LastUsedPersonId}}/persistedFaces/{{LastUsedPersonFaceId}}",
+					"host": [
+						"{{FaceApiUrl}}"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"persongroups",
+						"default",
+						"persons",
+						"{{LastUsedPersonId}}",
+						"persistedFaces",
+						"{{LastUsedPersonFaceId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Person Face",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"type": "text",
+						"value": "{{FaceSubscriptionKey}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{FaceApiUrl}}/face/v1.0/persongroups/default/persons/{{LastUsedPersonId}}/persistedFaces/{{LastUsedPersonFaceId}}",
+					"host": [
+						"{{FaceApiUrl}}"
+					],
+					"path": [
+						"face",
+						"v1.0",
+						"persongroups",
+						"default",
+						"persons",
+						"{{LastUsedPersonId}}",
+						"persistedFaces",
+						"{{LastUsedPersonFaceId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"type": "text",
+								"value": "{{FaceSubscriptionKey}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{RegionBaseUrl}}.api.cognitive.microsoft.com/face/v1.0/persongroups/default/persons/{{LastUsedPersonId}}/persistedFaces/{{LastUsedPersonFaceId}}",
+							"protocol": "https",
+							"host": [
+								"{{RegionBaseUrl}}",
+								"api",
+								"cognitive",
+								"microsoft",
+								"com"
+							],
+							"path": [
+								"face",
+								"v1.0",
+								"persongroups",
+								"default",
+								"persons",
+								"{{LastUsedPersonId}}",
+								"persistedFaces",
+								"{{LastUsedPersonFaceId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Length",
+							"value": "74"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "X-AspNet-Version",
+							"value": "4.0.30319"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "apim-request-id",
+							"value": "9cd6bca1-5d7a-4d9b-afac-d0fcc2d60c1e"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Aug 2019 11:16:44 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"persistedFaceId\": \"52e8fd8d-77d9-44c4-9810-c6790cf8f18f\",\n    \"userData\": null\n}"
+				}
+			]
+		}
+	]
+}
