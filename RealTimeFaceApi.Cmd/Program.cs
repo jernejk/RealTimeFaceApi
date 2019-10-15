@@ -1,9 +1,11 @@
 ﻿using Microsoft.Azure.CognitiveServices.Vision.Face;
+using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
 using OpenCvSharp;
 using RealTimeFaceApi.Core.Data;
 using RealTimeFaceApi.Core.Filters;
 using RealTimeFaceApi.Core.Trackers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +23,7 @@ namespace RealTimeFaceApi.Cmd
         private static readonly Scalar _faceColorBrush = new Scalar(0, 0, 255);
         private static FaceClient _faceClient;
         private static Task _faceRecognitionTask = null;
+        private static IList<Person> _cachedIdentities = null;
 
         public static void Main(string[] args)
         {
@@ -48,7 +51,7 @@ namespace RealTimeFaceApi.Cmd
             else
             {
                 // Otherwise use the webcam.
-                capture = InitializeCapture();
+                capture = InitializeCapture(0);
                 
                 // Time required to wait until next frame.
                 timePerFrame = (int)Math.Round(1000 / capture.Fps);
@@ -142,16 +145,40 @@ namespace RealTimeFaceApi.Cmd
                     var potentialUsers = await _faceClient.Face.IdentifyAsync(faceIds, FaceGroupId);
                     foreach (var candidate in potentialUsers.Select(u => u.Candidates.FirstOrDefault()))
                     {
-                        Console.WriteLine(DateTime.Now + ": Identified user ID: " + candidate?.PersonId);
+                        var candidateName = await GetCandidateName(candidate?.PersonId);
+                        Console.WriteLine($"{DateTime.Now}: {candidateName} ({candidate?.PersonId})");
                     }
                 }
             }
-            catch
+            catch (APIErrorException apiError)
             {
-                Console.WriteLine("Getting identity failed.");
+                Console.WriteLine("Cognitive service error: " + apiError?.Body?.Error?.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Getting identity failed: " + e.ToString());
             }
 
             _faceRecognitionTask = null;
+        }
+
+        private async static Task<string> GetCandidateName(Guid? personId)
+        {
+            if (!personId.HasValue)
+            {
+                return "No Person ID";
+            }
+
+            if (_cachedIdentities == null)
+            {
+                _cachedIdentities = await _faceClient.PersonGroupPerson.ListAsync(FaceGroupId);
+            }
+
+            return _cachedIdentities
+                ?.Where(i => i.PersonId == personId)
+                .Select(i => i.Name)
+                .FirstOrDefault()
+                ?? "Candidate not found";
         }
 
         /// <summary>
