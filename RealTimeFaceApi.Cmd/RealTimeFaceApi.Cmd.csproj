@@ -12,7 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.Face" Version="2.2.0-preview" />
     <PackageReference Include="OpenCvSharp4" Version="4.0.0.20181225" />
-    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.0.0.20181225" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.3.0.20200524" />
   </ItemGroup>
 
   <ItemGroup>
