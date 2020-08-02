@@ -4,7 +4,7 @@ Blog post: [Real-time face recognition with Microsoft Cognitive Services](https:
 
 YouTube video: [.NET User Group: Real-time Face Recognition With Microsoft Cognitive Services](https://www.youtube.com/watch?v=KCSyRO0KotA)
 
-Cognitive Services Explorer (in progress): [https://jernejk.github.io/CognitiveServices.Explorer/face/intro](https://jernejk.github.io/CognitiveServices.Explorer/face/intro)
+Cognitive Studio (in progress): [https://cognitivestudio.dev/face/intro](https://cognitivestudio.dev/face/intro)
 
 # RealTimeFaceApi
 This is a demo project showing how to use Face API in Cognitive Services with OpenCV.
