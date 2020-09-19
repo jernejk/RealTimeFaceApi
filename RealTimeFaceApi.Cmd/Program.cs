@@ -221,7 +221,7 @@ namespace RealTimeFaceApi.Cmd
         private static VideoCapture InitializeCapture(int cameraIndex = 0)
         {
             VideoCapture capture = new VideoCapture();
-            capture.Open(CaptureDevice.MSMF, cameraIndex);
+            capture.Open(cameraIndex, VideoCaptureAPIs.ANY);
 
             if (!capture.IsOpened())
             {
