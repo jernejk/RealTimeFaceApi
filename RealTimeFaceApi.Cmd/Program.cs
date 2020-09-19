@@ -6,6 +6,7 @@ using RealTimeFaceApi.Core.Filters;
 using RealTimeFaceApi.Core.Trackers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,6 +32,14 @@ namespace RealTimeFaceApi.Cmd
             {
                 Endpoint = "https://westus.api.cognitive.microsoft.com"
             };
+
+            if (string.IsNullOrWhiteSpace(FaceSubscriptionKey))
+            {
+                var defaultColor = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Face API configuration is not configured");
+                Console.ForegroundColor = defaultColor;
+            }
 
             string filename = args.FirstOrDefault();
             Run(filename);
@@ -134,29 +143,45 @@ namespace RealTimeFaceApi.Cmd
         {
             try
             {
-                Console.WriteLine(DateTime.Now + ": Attempting to recognize faces...");
-                
+                // TODO: Optimize by cropping the image to only the face (with 10-30% padding) to have <50kB upload.
                 var stream = image.ToMemoryStream();
+
+                Console.WriteLine(DateTime.Now + ": Sending " + (stream.Length / 1024) + "kB to recognize face.");
+
+                Stopwatch stopwatch = Stopwatch.StartNew();
                 var detectedFaces = await _faceClient.Face.DetectWithStreamAsync(stream, true, true);
                 var faceIds = detectedFaces.Where(f => f.FaceId.HasValue).Select(f => f.FaceId.Value).ToList();
+                Console.WriteLine(DateTime.Now + ": Found " + faceIds.Count + " faces in " + stopwatch.ElapsedMilliseconds + "ms.");
+
+                stopwatch.Stop();
 
                 if (faceIds.Any())
                 {
+                    stopwatch.Restart();
+
                     var potentialUsers = await _faceClient.Face.IdentifyAsync(faceIds, FaceGroupId);
+
+                    stopwatch.Stop();
+
+                    Console.WriteLine(DateTime.Now + ": Recognized " + potentialUsers.Count + " candidates in " + stopwatch.ElapsedMilliseconds + "ms.");
                     foreach (var candidate in potentialUsers.Select(u => u.Candidates.FirstOrDefault()))
                     {
                         var candidateName = await GetCandidateName(candidate?.PersonId);
                         Console.WriteLine($"{DateTime.Now}: {candidateName} ({candidate?.PersonId})");
                     }
                 }
+                else
+                {
+                    Console.WriteLine(DateTime.Now + $": No clear shot on the faces.");
+                }
             }
             catch (APIErrorException apiError)
             {
-                Console.WriteLine("Cognitive service error: " + apiError?.Body?.Error?.Message);
+                Console.WriteLine(DateTime.Now + ": Cognitive service error: " + apiError?.Body?.Error?.Message);
             }
             catch (Exception e)
             {
-                Console.WriteLine("Getting identity failed: " + e.ToString());
+                Console.WriteLine(DateTime.Now + ": Getting identity failed: " + e.ToString());
             }
 
             _faceRecognitionTask = null;
