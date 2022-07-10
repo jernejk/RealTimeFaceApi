@@ -1,0 +1,23 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "19:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: Microsoft.NET.Test.Sdk
+    versions:
+    - 16.8.3
+    - 16.9.1
+  - dependency-name: OpenCvSharp4
+    versions:
+    - 4.5.1.20210123
+    - 4.5.1.20210208
+    - 4.5.1.20210210
+  - dependency-name: OpenCvSharp4.runtime.win
+    versions:
+    - 4.5.1.20210123
+    - 4.5.1.20210208
+    - 4.5.1.20210210
